@@ -15,7 +15,7 @@ module Program =
         
     let matchFirstNumberInString =
         function 
-        | Regex @".*\d.*" [result] ->
+        | Regex @"^(\D*)(\d+)" [_; result] ->
             match Int32.TryParse(result) with 
             | (true, int) -> Some(int)
             | _ -> None
