@@ -1,8 +1,19 @@
-﻿// Learn more about F# at http://fsharp.org
+﻿// return an integer exit code
+module Program
 
 open System
+open System.IO
 
-[<EntryPoint>]
-let main argv =
-    printfn "Hello World from F#!"
-    0 // return an integer exit code
+module Program =
+    let readFilenamesInDirectory (directory : DirectoryInfo) pattern =
+        match directory.Exists with
+        | false -> Seq.empty
+        | true -> directory.EnumerateFiles(pattern) |> Seq.map (fun f -> f.Name)
+    
+    [<EntryPoint>]
+    let main argv =
+        let currentDirectory = new DirectoryInfo(Environment.CurrentDirectory)
+        readFilenamesInDirectory currentDirectory "*.*" 
+        |> Seq.iter (printfn "%s")
+        printfn "All files enumerated"
+        0
